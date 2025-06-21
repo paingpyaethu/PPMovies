@@ -48,6 +48,7 @@ const metricSizes = {
   '200': scaledSize(200),
   '220': scaledSize(220),
   '240': scaledSize(240),
+  '300': scaledSize(300),
 };
 
 const shadows = {

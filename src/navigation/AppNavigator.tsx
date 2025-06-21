@@ -5,11 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from '@/screens/HomeScreen';
 import DetailScreen from '@/screens/DetailScreen';
-
-export type RootStackParamList = {
-  Home: undefined;
-  Detail: {movieId: number};
-};
+import {RootStackParamList} from './types';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
