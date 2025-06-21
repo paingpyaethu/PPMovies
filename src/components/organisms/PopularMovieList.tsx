@@ -28,7 +28,7 @@ const PopularMovieList = ({data, favorites}: PopularMovieListProps) => {
       <FlashList
         data={data}
         extraData={[]}
-        estimatedItemSize={266}
+        estimatedItemSize={400} // 266
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: config.spacing[20]}}

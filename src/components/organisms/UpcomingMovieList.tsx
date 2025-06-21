@@ -33,7 +33,7 @@ const UpcomingMovieList = ({data, favorites}: UpcomingMovieListProps) => {
         data={data}
         extraData={[]}
         horizontal
-        estimatedItemSize={142}
+        estimatedItemSize={160} // 142
         renderItem={renderItem}
         showsHorizontalScrollIndicator={false}
         getItemType={item => {

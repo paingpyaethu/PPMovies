@@ -22,7 +22,7 @@ const FastImageWithLoader = ({
         {...props}
         style={StyleSheet.absoluteFill}
         onLoadStart={() => setIsLoading(true)}
-        onLoadEnd={() => setIsLoading(false)}
+        onLoad={() => setIsLoading(false)}
       />
       {isLoading && (
         <View style={styles.loader}>
