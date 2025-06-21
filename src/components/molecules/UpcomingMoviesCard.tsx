@@ -3,6 +3,7 @@ import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Movie} from '@/features/movies/types';
 import {ThemedCard, ThemedText} from '../atoms';
 import {config} from '@/theme';
+import FastImage from '@d11/react-native-fast-image';
 
 interface UpcomingMoviesProps {
   movie: Movie;
@@ -21,10 +22,10 @@ const UpcomingMovies = ({
 }: UpcomingMoviesProps) => {
   return (
     <ThemedCard onPress={onPress} cardContainerStyle={styles.container}>
-      <Image
+      <FastImage
         source={{uri: `${IMAGE_BASE_URL}${movie.poster_path}`}}
         style={styles.poster}
-        resizeMode="cover"
+        resizeMode={FastImage.resizeMode.cover}
       />
       <TouchableOpacity
         style={{
@@ -49,11 +50,7 @@ const styles = StyleSheet.create({
   },
   poster: {
     width: '100%',
-    height: config.spacing[300],
+    height: config.spacing[240],
     borderRadius: config.spacing[8],
-  },
-  heart: {
-    fontSize: 20,
-    marginTop: 8,
   },
 });

@@ -1,15 +1,14 @@
 import React, {useEffect} from 'react';
-import {View, FlatList, Button} from 'react-native';
+import {View, Button} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '@/store';
 import {fetchMoviesRequest, toggleFavorite} from '@/features/movies/movieSlice';
 import {SafeScreen} from '@/components/template';
-import {ThemedText} from '@/components/atoms';
+import {AppLoading, ThemedText} from '@/components/atoms';
 import {config} from '@/theme';
 import {useNavigation} from '@react-navigation/native';
-import UpcomingMovies from '@/components/molecules/UpcomingMovies';
-import {Movie} from '@/features/movies/types';
-import PopularMovieCard from '@/components/molecules/PopularMovieCard';
+import PopularMovieList from '@/components/organisms/PopularMovieList';
+import UpcomingMovieList from '@/components/organisms/UpcomingMovieList';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -17,32 +16,18 @@ const HomeScreen = () => {
   const {upcoming, popular, favorites, loading, error} = useSelector(
     (state: RootState) => state.movies,
   );
+  console.log('🚀 ~ HomeScreen ~ loading:', loading);
 
   useEffect(() => {
     dispatch(fetchMoviesRequest());
   }, [dispatch]);
 
-  const renderUpcomingMovie = ({item}: {item: Movie}) => (
-    <UpcomingMovies
-      movie={item}
-      isFavorite={favorites.includes(item.id)}
-      onToggleFavorite={id => dispatch(toggleFavorite(id))}
-      onPress={() => navigation.navigate('Detail', {movieId: item.id})}
-    />
-  );
-
-  const renderMovie = ({item}: {item: Movie}) => (
-    <PopularMovieCard
-      movie={item}
-      isFavorite={favorites.includes(item.id)}
-      onToggleFavorite={id => dispatch(toggleFavorite(id))}
-      onPress={() => navigation.navigate('Detail', {movieId: item.id})}
-    />
-  );
+  if (loading) {
+    return <AppLoading />;
+  }
 
   return (
     <SafeScreen containerStyle={{flex: 1, padding: config.spacing[16]}}>
-      {loading && <ThemedText>Loading...</ThemedText>}
       {error && (
         <View>
           <ThemedText>Error: {error}</ThemedText>
@@ -54,32 +39,17 @@ const HomeScreen = () => {
       )}
       {!loading && !error && (
         <View style={{flex: 1, paddingTop: config.spacing[16]}}>
-          <ThemedText
-            weight="Roboto_bold"
-            size="fs_30"
-            marginBottom={config.spacing[16]}>
-            Upcoming
-          </ThemedText>
-          <FlatList
+          <UpcomingMovieList
             data={upcoming}
-            horizontal
-            renderItem={renderUpcomingMovie}
-            keyExtractor={item => item.id.toString()}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{paddingBottom: config.spacing[16]}}
+            favorites={favorites}
+            onToggleFavorite={id => dispatch(toggleFavorite(id))}
+            onPress={id => navigation.navigate('Detail', {movieId: id})}
           />
-
-          <ThemedText
-            weight="Roboto_bold"
-            size="fs_30"
-            marginVertical={config.spacing[16]}>
-            Popular
-          </ThemedText>
-          <FlatList
+          <PopularMovieList
             data={popular}
-            renderItem={renderMovie}
-            keyExtractor={item => item.id.toString()}
-            contentContainerStyle={{paddingBottom: config.spacing[20]}}
+            favorites={favorites}
+            onToggleFavorite={id => dispatch(toggleFavorite(id))}
+            onPress={id => navigation.navigate('Detail', {movieId: id})}
           />
         </View>
       )}

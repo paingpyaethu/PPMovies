@@ -5,7 +5,7 @@ const initialState: MoviesState = {
   upcoming: [],
   popular: [],
   favorites: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
