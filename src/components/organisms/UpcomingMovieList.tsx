@@ -28,6 +28,7 @@ const UpcomingMovieList = ({
       </ThemedText>
       <FlashList
         data={data}
+        extraData={[]}
         horizontal
         estimatedItemSize={100}
         keyExtractor={item => item.id.toString()}

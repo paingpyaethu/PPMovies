@@ -16,7 +16,6 @@ const HomeScreen = () => {
   const {upcoming, popular, favorites, loading, error} = useSelector(
     (state: RootState) => state.movies,
   );
-  console.log('🚀 ~ HomeScreen ~ loading:', loading);
 
   useEffect(() => {
     dispatch(fetchMoviesRequest());

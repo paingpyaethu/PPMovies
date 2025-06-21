@@ -37,6 +37,9 @@ const movieSlice = createSlice({
         state.favorites.push(id);
       }
     },
+    toggleFavoriteBulk(state, action: PayloadAction<number[]>) {
+      state.favorites = action.payload;
+    },
   },
 });
 

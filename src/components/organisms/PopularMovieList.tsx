@@ -28,6 +28,7 @@ const PopularMovieList = ({
       </ThemedText>
       <FlashList
         data={data}
+        extraData={[]}
         estimatedItemSize={140}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (
