@@ -1,26 +1,30 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Movie} from '@/features/movies/types';
 import {FastImageWithLoader, ThemedCard, ThemedText} from '../atoms';
 import {config} from '@/theme';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {toggleFavorite} from '@/features/movies/movieSlice';
 
 interface UpcomingMoviesProps {
   movie: Movie;
   isFavorite: boolean;
-  onToggleFavorite: (id: number) => void;
-  onPress?: () => void;
 }
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 
-const UpcomingMovies = ({
-  movie,
-  isFavorite,
-  onToggleFavorite,
-  onPress,
-}: UpcomingMoviesProps) => {
+const UpcomingMoviesCard = ({movie, isFavorite}: UpcomingMoviesProps) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const onToggleFavorite = (id: number) => {
+    dispatch(toggleFavorite(id));
+  };
+
   return (
-    <ThemedCard onPress={onPress} cardContainerStyle={styles.container}>
+    <ThemedCard
+      onPress={() => navigation.navigate('Detail', {movieId: movie.id})}
+      cardContainerStyle={styles.container}>
       <FastImageWithLoader
         source={{uri: `${IMAGE_BASE_URL}${movie.poster_path}`}}
         style={styles.poster}
@@ -38,12 +42,12 @@ const UpcomingMovies = ({
   );
 };
 
-export default UpcomingMovies;
+export default memo(UpcomingMoviesCard);
 
 const styles = StyleSheet.create({
   container: {
     width: config.spacing[140],
-    marginRight: 12,
+    marginRight: config.spacing[12],
     overflow: 'hidden',
   },
   poster: {

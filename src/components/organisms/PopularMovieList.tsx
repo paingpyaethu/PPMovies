@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {FlashList} from '@shopify/flash-list';
 import {Movie} from '@/features/movies/types';
 import PopularMovieCard from '@/components/molecules/PopularMovieCard';
@@ -8,16 +8,15 @@ import {config} from '@/theme';
 interface PopularMovieListProps {
   data: Movie[];
   favorites: number[];
-  onToggleFavorite: (id: number) => void;
-  onPress: (id: number) => void;
 }
 
-const PopularMovieList = ({
-  data,
-  favorites,
-  onToggleFavorite,
-  onPress,
-}: PopularMovieListProps) => {
+const PopularMovieList = ({data, favorites}: PopularMovieListProps) => {
+  const renderItem = useCallback(
+    ({item}: {item: Movie}) => (
+      <PopularMovieCard movie={item} isFavorite={favorites.includes(item.id)} />
+    ),
+    [favorites],
+  );
   return (
     <>
       <ThemedText
@@ -29,17 +28,14 @@ const PopularMovieList = ({
       <FlashList
         data={data}
         extraData={[]}
-        estimatedItemSize={140}
+        estimatedItemSize={200}
         keyExtractor={item => item.id.toString()}
-        renderItem={({item}) => (
-          <PopularMovieCard
-            movie={item}
-            isFavorite={favorites.includes(item.id)}
-            onToggleFavorite={onToggleFavorite}
-            onPress={() => onPress(item.id)}
-          />
-        )}
+        renderItem={renderItem}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: config.spacing[20]}}
+        getItemType={item => {
+          return item.id;
+        }}
       />
     </>
   );

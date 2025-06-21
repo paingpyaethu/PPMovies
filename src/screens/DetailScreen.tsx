@@ -45,7 +45,7 @@ const DetailScreen = () => {
 
         <View style={styles.info}>
           <View style={styles.headerRow}>
-            <ThemedText weight="Roboto_bold" size="fs_28">
+            <ThemedText weight="Roboto_bold" size="fs_28" width={'80%'}>
               {movie.title}
             </ThemedText>
 

@@ -1,7 +1,8 @@
 import axios from 'axios';
+import Config from 'react-native-config';
 
-const API_KEY = 'a3453eb7bb98bd3d358994d3d1f85040';
-const BASE_URL = 'https://api.themoviedb.org/3';
+const API_KEY = Config.TMDB_API_KEY;
+const BASE_URL = Config.TMDB_BASE_URL;
 
 export const fetchUpcomingMovies = async () => {
   return axios.get(`${BASE_URL}/movie/upcoming`, {

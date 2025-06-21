@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {FlashList} from '@shopify/flash-list';
 import {Movie} from '@/features/movies/types';
 import UpcomingMoviesCard from '@/components/molecules/UpcomingMoviesCard';
@@ -8,16 +8,19 @@ import {config} from '@/theme';
 interface UpcomingMovieListProps {
   data: Movie[];
   favorites: number[];
-  onToggleFavorite: (id: number) => void;
-  onPress: (id: number) => void;
 }
 
-const UpcomingMovieList = ({
-  data,
-  favorites,
-  onToggleFavorite,
-  onPress,
-}: UpcomingMovieListProps) => {
+const UpcomingMovieList = ({data, favorites}: UpcomingMovieListProps) => {
+  const renderItem = useCallback(
+    ({item}: {item: Movie}) => (
+      <UpcomingMoviesCard
+        movie={item}
+        isFavorite={favorites.includes(item.id)}
+      />
+    ),
+    [favorites],
+  );
+
   return (
     <>
       <ThemedText
@@ -30,17 +33,13 @@ const UpcomingMovieList = ({
         data={data}
         extraData={[]}
         horizontal
-        estimatedItemSize={100}
+        estimatedItemSize={200}
         keyExtractor={item => item.id.toString()}
-        renderItem={({item}) => (
-          <UpcomingMoviesCard
-            movie={item}
-            isFavorite={favorites.includes(item.id)}
-            onToggleFavorite={onToggleFavorite}
-            onPress={() => onPress(item.id)}
-          />
-        )}
+        renderItem={renderItem}
         showsHorizontalScrollIndicator={false}
+        getItemType={item => {
+          return item.id;
+        }}
       />
     </>
   );

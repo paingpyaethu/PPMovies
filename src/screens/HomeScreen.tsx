@@ -38,18 +38,8 @@ const HomeScreen = () => {
       )}
       {!loading && !error && (
         <View style={{flex: 1, paddingTop: config.spacing[16]}}>
-          <UpcomingMovieList
-            data={upcoming}
-            favorites={favorites}
-            onToggleFavorite={id => dispatch(toggleFavorite(id))}
-            onPress={id => navigation.navigate('Detail', {movieId: id})}
-          />
-          <PopularMovieList
-            data={popular}
-            favorites={favorites}
-            onToggleFavorite={id => dispatch(toggleFavorite(id))}
-            onPress={id => navigation.navigate('Detail', {movieId: id})}
-          />
+          <UpcomingMovieList data={upcoming} favorites={favorites} />
+          <PopularMovieList data={popular} favorites={favorites} />
         </View>
       )}
     </SafeScreen>

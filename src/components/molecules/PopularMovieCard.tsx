@@ -1,27 +1,28 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Movie} from '@/features/movies/types';
 import {FastImageWithLoader, ThemedCard, ThemedText} from '../atoms';
 import {config} from '@/theme';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {toggleFavorite} from '@/features/movies/movieSlice';
 
 interface PopularMovieCardProps {
   movie: Movie;
   isFavorite: boolean;
-  onToggleFavorite: (id: number) => void;
-  onPress?: () => void;
 }
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 
-const PopularMovieCard = ({
-  movie,
-  isFavorite,
-  onToggleFavorite,
-  onPress,
-}: PopularMovieCardProps) => {
+const PopularMovieCard = ({movie, isFavorite}: PopularMovieCardProps) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const onToggleFavorite = (id: number) => {
+    dispatch(toggleFavorite(id));
+  };
   return (
     <ThemedCard
-      onPress={onPress}
+      onPress={() => navigation.navigate('Detail', {movieId: movie.id})}
       cardContainerStyle={{marginBottom: config.spacing[16]}}>
       <FastImageWithLoader
         source={{uri: `${IMAGE_BASE_URL}${movie.poster_path}`}}
@@ -51,7 +52,7 @@ const PopularMovieCard = ({
   );
 };
 
-export default PopularMovieCard;
+export default memo(PopularMovieCard);
 
 const styles = StyleSheet.create({
   poster: {
