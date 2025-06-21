@@ -5,7 +5,6 @@ import {
   fetchMoviesFailure,
   toggleFavorite,
 } from './movieSlice';
-import {fetchPopularMovies, fetchUpcomingMovies} from '@/api/client';
 import {
   saveFavoritesToStorage,
   loadFavoritesFromStorage,
@@ -13,21 +12,22 @@ import {
   loadMoviesFromCache,
 } from '@/utils/storage';
 import {RootState} from '@/store';
+import {TmdbMovieService} from '@/services/TmdbMovieService';
+import {MovieService} from '@/services/MovieService';
+
+const movieService: MovieService = TmdbMovieService;
 
 function* fetchMoviesSaga(): Generator<any, void, any> {
   try {
     const cached = yield call(loadMoviesFromCache);
     if (cached.upcoming.length || cached.popular.length) {
-      yield put(fetchMoviesSuccess(cached)); // display cached
+      yield put(fetchMoviesSuccess(cached));
     }
 
-    const upcomingRes = yield call(fetchUpcomingMovies);
-    const popularRes = yield call(fetchPopularMovies);
+    const upcoming = yield call(movieService.fetchUpcoming);
+    const popular = yield call(movieService.fetchPopular);
 
-    const freshData = {
-      upcoming: upcomingRes.data.results,
-      popular: popularRes.data.results,
-    };
+    const freshData = {upcoming, popular};
 
     yield put(fetchMoviesSuccess(freshData));
     yield call(saveMoviesToCache, freshData);

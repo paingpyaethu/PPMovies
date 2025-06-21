@@ -2,16 +2,14 @@ import React, {useEffect} from 'react';
 import {View, Button} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '@/store';
-import {fetchMoviesRequest, toggleFavorite} from '@/features/movies/movieSlice';
+import {fetchMoviesRequest} from '@/features/movies/movieSlice';
 import {SafeScreen} from '@/components/template';
 import {AppLoading, ThemedText} from '@/components/atoms';
 import {config} from '@/theme';
-import {useNavigation} from '@react-navigation/native';
 import PopularMovieList from '@/components/organisms/PopularMovieList';
 import UpcomingMovieList from '@/components/organisms/UpcomingMovieList';
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
   const {upcoming, popular, favorites, loading, error} = useSelector(
     (state: RootState) => state.movies,
