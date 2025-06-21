@@ -1,9 +1,8 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Movie} from '@/features/movies/types';
-import {ThemedCard, ThemedText} from '../atoms';
+import {FastImageWithLoader, ThemedCard, ThemedText} from '../atoms';
 import {config} from '@/theme';
-import FastImage from '@d11/react-native-fast-image';
 
 interface UpcomingMoviesProps {
   movie: Movie;
@@ -22,10 +21,9 @@ const UpcomingMovies = ({
 }: UpcomingMoviesProps) => {
   return (
     <ThemedCard onPress={onPress} cardContainerStyle={styles.container}>
-      <FastImage
+      <FastImageWithLoader
         source={{uri: `${IMAGE_BASE_URL}${movie.poster_path}`}}
         style={styles.poster}
-        resizeMode={FastImage.resizeMode.cover}
       />
       <TouchableOpacity
         style={{

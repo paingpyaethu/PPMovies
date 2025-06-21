@@ -1,9 +1,8 @@
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Movie} from '@/features/movies/types';
-import {ThemedCard, ThemedText} from '../atoms';
+import {FastImageWithLoader, ThemedCard, ThemedText} from '../atoms';
 import {config} from '@/theme';
-import FastImage from '@d11/react-native-fast-image';
 
 interface PopularMovieCardProps {
   movie: Movie;
@@ -24,10 +23,9 @@ const PopularMovieCard = ({
     <ThemedCard
       onPress={onPress}
       cardContainerStyle={{marginBottom: config.spacing[16]}}>
-      <FastImage
+      <FastImageWithLoader
         source={{uri: `${IMAGE_BASE_URL}${movie.poster_path}`}}
         style={styles.poster}
-        resizeMode={FastImage.resizeMode.cover}
       />
       <View style={styles.info}>
         <ThemedText size="fs_18" numberOfLines={1}>
