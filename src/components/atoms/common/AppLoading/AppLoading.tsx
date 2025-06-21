@@ -1,7 +1,7 @@
 import {SafeScreen} from '@/components/template';
 import {colors} from '@/theme';
 import React from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 
 const AppLoading = () => {
   return (
