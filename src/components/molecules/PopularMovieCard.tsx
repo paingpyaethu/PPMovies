@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Movie} from '@/features/movies/types';
 import {ThemedCard, ThemedText} from '../atoms';
 import {config} from '@/theme';
