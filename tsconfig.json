@@ -3,12 +3,15 @@
   "compilerOptions": {
     "types": ["react-native", "jest", "node"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "~/*": ["./*"]
     },
     "noUnusedLocals": true
   },
   "include": [
-    "tests/**/*",
+    // "tests/**/*",
+    "./__tests__/**/*",
+    "./__mocks__/**/*",
     "./src/**/*",
     "index.d.ts",
     "*.mjs",
