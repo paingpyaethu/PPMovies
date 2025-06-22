@@ -11,7 +11,11 @@ const AppLoading = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <ActivityIndicator color={colors.lightGray} size={'large'} />
+      <ActivityIndicator
+        testID="activity-indicator"
+        color={colors.lightGray}
+        size={'large'}
+      />
     </SafeScreen>
   );
 };
