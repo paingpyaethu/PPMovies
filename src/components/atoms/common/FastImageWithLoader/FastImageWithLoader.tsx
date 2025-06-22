@@ -26,7 +26,11 @@ const FastImageWithLoader = ({
       />
       {isLoading && (
         <View style={styles.loader}>
-          <ActivityIndicator size={loaderSize} color={loaderColor} />
+          <ActivityIndicator
+            testID="ActivityIndicator"
+            size={loaderSize}
+            color={loaderColor}
+          />
         </View>
       )}
     </View>
