@@ -1,6 +1,6 @@
 import {Movie} from '@/features/movies/types';
 
 export interface MovieService {
-  fetchUpcoming: () => Promise<Movie[]>;
-  fetchPopular: () => Promise<Movie[]>;
+  fetchUpcoming: (page?: number) => Promise<Movie[]>;
+  fetchPopular: (page?: number) => Promise<Movie[]>;
 }

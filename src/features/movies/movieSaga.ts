@@ -4,6 +4,10 @@ import {
   fetchMoviesSuccess,
   fetchMoviesFailure,
   toggleFavorite,
+  appendMovies,
+  setUpcomingPage,
+  setPopularPage,
+  setScrollLoading,
 } from './movieSlice';
 import {
   saveFavoritesToStorage,
@@ -37,6 +41,66 @@ function* fetchMoviesSaga(): Generator<any, void, any> {
   }
 }
 
+function* fetchUpcomingPageSaga(): Generator<any, void, any> {
+  try {
+    yield put(setScrollLoading({type: 'upcoming', loading: true}));
+    const page: number = yield select(
+      (state: RootState) => state.movies.page.upcoming,
+    );
+    const results = yield call(() => movieService.fetchUpcoming(page));
+    const hasNext = results.length > 0;
+
+    yield put(appendMovies({type: 'upcoming', results, hasNextPage: hasNext}));
+    if (hasNext) yield put(setUpcomingPage(page + 1));
+
+    const updatedUpcoming: any[] = yield select(
+      (state: RootState) => state.movies.upcoming,
+    );
+    const cachedPopular: any[] = yield select(
+      (state: RootState) => state.movies.popular,
+    );
+    yield call(saveMoviesToCache, {
+      upcoming: updatedUpcoming,
+      popular: cachedPopular,
+    });
+  } catch (e) {
+    console.warn('Upcoming pagination failed', e);
+  } finally {
+    yield put(setScrollLoading({type: 'upcoming', loading: false}));
+  }
+}
+
+function* fetchPopularPageSaga(): Generator<any, void, any> {
+  try {
+    yield put(setScrollLoading({type: 'popular', loading: true}));
+    const page: number = yield select(
+      (state: RootState) => state.movies.page.popular,
+    );
+    const results = yield call(() => movieService.fetchPopular(page));
+    const hasNext = results.length > 0;
+
+    yield put(appendMovies({type: 'popular', results, hasNextPage: hasNext}));
+    if (hasNext) {
+      yield put(setPopularPage(page + 1));
+    }
+
+    const updatedUpcoming: any[] = yield select(
+      (state: RootState) => state.movies.upcoming,
+    );
+    const cachedPopular: any[] = yield select(
+      (state: RootState) => state.movies.popular,
+    );
+    yield call(saveMoviesToCache, {
+      upcoming: updatedUpcoming,
+      popular: cachedPopular,
+    });
+  } catch (e) {
+    console.warn('Popular pagination failed', e);
+  } finally {
+    yield put(setScrollLoading({type: 'upcoming', loading: false}));
+  }
+}
+
 function* persistFavoritesSaga() {
   const favorites: number[] = yield select(
     (state: RootState) => state.movies.favorites,
@@ -52,5 +116,7 @@ function* loadFavoritesOnStartup(): Generator<any, void, any> {
 export function* movieSaga() {
   yield takeLatest(fetchMoviesRequest.type, fetchMoviesSaga);
   yield takeLatest(toggleFavorite.type, persistFavoritesSaga);
+  yield takeLatest('movies/loadNextUpcomingPage', fetchUpcomingPageSaga);
+  yield takeLatest('movies/loadNextPopularPage', fetchPopularPageSaga);
   yield call(loadFavoritesOnStartup);
 }

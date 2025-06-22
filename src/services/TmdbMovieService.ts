@@ -6,15 +6,16 @@ const BASE_URL = Config.TMDB_BASE_URL;
 const API_KEY = Config.TMDB_API_KEY;
 
 export const TmdbMovieService: MovieService = {
-  fetchUpcoming: async () => {
+  fetchUpcoming: async (page = 1) => {
     const res = await axios.get(`${BASE_URL}/movie/upcoming`, {
-      params: {api_key: API_KEY},
+      params: {api_key: API_KEY, page},
     });
     return res.data.results;
   },
-  fetchPopular: async () => {
+
+  fetchPopular: async (page = 1) => {
     const res = await axios.get(`${BASE_URL}/movie/popular`, {
-      params: {api_key: API_KEY},
+      params: {api_key: API_KEY, page},
     });
     return res.data.results;
   },

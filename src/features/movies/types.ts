@@ -13,4 +13,16 @@ export interface MoviesState {
   favorites: number[];
   loading: boolean;
   error: string | null;
+  page: {
+    upcoming: number;
+    popular: number;
+  };
+  hasNextPage: {
+    upcoming: boolean;
+    popular: boolean;
+  };
+  scrollLoading: {
+    upcoming: boolean;
+    popular: boolean;
+  };
 }
