@@ -3,3 +3,4 @@ import '@testing-library/react-native';
 import './react-native-reanimated';
 import './react-native-safe-area-context';
 import './redux-persist';
+import './react-native-config';
